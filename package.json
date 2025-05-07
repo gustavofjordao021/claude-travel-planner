@@ -1,0 +1,39 @@
+{
+	"name": "claude-travel-planner",
+	"version": "0.1.0",
+	"description": "MCP servers for travel planning with Google Sheets, Maps and Browserbase",
+	"license": "MIT",
+	"author": "Gustavo Jordão (https://github.com/gustavofjordao021)",
+	"homepage": "https://github.com/gustavofjordao021/claude-travel-planner",
+	"bugs": "https://github.com/gustavofjordao021/claude-travel-planner/issues",
+	"type": "module",
+	"bin": {
+		"travel-planner-mcp": "dist/travel-planner.js"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "mkdir -p dist/prompts && cp -r prompts/* dist/prompts/",
+		"start": "node dist/travel-planner.js",
+		"dev": "node --loader ts-node/esm src/travel-planner.ts"
+	},
+	"dependencies": {
+		"@google-cloud/local-auth": "^3.0.1",
+		"@googlemaps/google-maps-services-js": "^3.3.42",
+		"@modelcontextprotocol/sdk": "^1.11.0",
+		"axios": "^1.8.4",
+		"cross-env": "^7.0.3",
+		"dotenv": "^16.5.0",
+		"googleapis": "^144.0.0",
+		"uuid": "^9.0.1"
+	},
+	"devDependencies": {
+		"@types/node": "^22",
+		"@types/uuid": "^9.0.8",
+		"shx": "^0.3.4",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.6.2"
+	},
+	"main": "dist/travel-planner.js"
+}

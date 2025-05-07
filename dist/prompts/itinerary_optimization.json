@@ -1,0 +1,38 @@
+{
+	"name": "itinerary_optimization",
+	"description": "Guide for creating optimized daily travel itineraries based on location proximity and opening hours",
+	"version": "1.0.0",
+	"text": "Follow these steps to create an optimized travel itinerary for {{destination}}:\n\n1. **Load Existing Research**\n   - If you already have a spreadsheet with attractions, use `read_all_from_sheet` to load that data.\n   - If not, use the destination_research prompt first to gather attraction data.\n\n2. **Plan Daily Itineraries**\n   - For each day of the {{duration}}-day trip:\n\n   a. **Morning Activities (First Half)**\n      - Start with attractions that open early.\n      - Group nearby attractions (use `maps_distance` to check proximity).\n      - Allow 1-3 hours per attraction depending on size/importance.\n\n   b. **Lunch Break Planning**\n      - Identify restaurant options near your midday location.\n      - Schedule 1-1.5 hours for lunch.\n\n   c. **Afternoon Activities (Second Half)**\n      - Continue with nearby attractions.\n      - Check closing times to prioritize attractions that close earlier.\n      - Use `maps_route` to optimize the order of visits.\n\n   d. **Evening Activities**\n      - Plan dinner locations near your final attraction or accommodation.\n      - Add optional evening activities (shows, night views, etc.).\n\n3. **Adjust for Practicality**\n   - Use `maps_distance` to check travel time between attractions.\n   - Ensure there's enough buffer time between activities (30-60 min).\n   - Consider opening days (some attractions may be closed on certain days).\n   - Check for special events during your visit dates.\n\n4. **Create Transportation Plan**\n   - For each leg of the journey, determine the best transport method:\n     * Walking for distances under 1-2 km\n     * Public transit for longer city distances\n     * Taxi/rideshare for specific situations\n   - Add transportation details and estimated costs to the itinerary.\n\n5. **Create Itinerary Spreadsheet**\n   - Use `create_spreadsheet` or add new sheets to your existing spreadsheet.\n   - Create a sheet for each day of the trip.\n   - Format with columns: Time, Activity, Duration, Location, Transport, Notes.\n   - Add a \"Trip Overview\" sheet showing the main focus for each day.\n\n6. **Prepare for Contingencies**\n   - Add alternative indoor activities for rain days.\n   - Note backup options if certain attractions are closed.\n   - Include contact information for reservations.\n\n7. **Final Review**\n   - Check for balanced days (not too packed or empty).\n   - Ensure travel times are realistic.\n   - Verify that attraction visiting hours align with your schedule.\n\nAfter completing these steps, provide:\n1. A day-by-day itinerary in the spreadsheet\n2. A summary of highlights for each day\n3. A map visualization showing the route for each day (if possible)",
+	"inputVariables": [
+		{
+			"name": "destination",
+			"description": "The city or region for the itinerary",
+			"type": "string",
+			"required": true
+		},
+		{
+			"name": "duration",
+			"description": "Number of days for the trip",
+			"type": "number",
+			"required": true
+		},
+		{
+			"name": "spreadsheet_id",
+			"description": "ID of an existing research spreadsheet (optional)",
+			"type": "string",
+			"required": false
+		},
+		{
+			"name": "interests",
+			"description": "Specific interests to prioritize (museums, nature, food, etc.)",
+			"type": "string",
+			"required": false
+		},
+		{
+			"name": "pace",
+			"description": "Preferred pace of travel (relaxed, moderate, packed)",
+			"type": "string",
+			"required": false
+		}
+	]
+}

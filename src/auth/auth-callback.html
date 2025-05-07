@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Google Sheets Authentication Complete</title>
+		<style>
+			:root {
+				--primary-color: #4285f4;
+				--primary-hover: #3367d6;
+				--success-color: #34a853;
+				--error-color: #ea4335;
+				--light-gray: #f5f5f5;
+				--dark-gray: #333;
+				--shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+					Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+				background-color: var(--light-gray);
+				color: var(--dark-gray);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				min-height: 100vh;
+				padding: 20px;
+			}
+
+			.container {
+				background: white;
+				border-radius: 12px;
+				box-shadow: var(--shadow);
+				padding: 40px;
+				max-width: 550px;
+				width: 100%;
+				text-align: center;
+				animation: fadeIn 0.5s ease-in-out;
+			}
+
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: translateY(20px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			.icon {
+				font-size: 64px;
+				margin-bottom: 20px;
+			}
+
+			.success .icon {
+				color: var(--success-color);
+			}
+
+			.error .icon {
+				color: var(--error-color);
+			}
+
+			h1 {
+				font-size: 28px;
+				margin-bottom: 16px;
+				font-weight: 600;
+			}
+
+			.success h1 {
+				color: var(--success-color);
+			}
+
+			.error h1 {
+				color: var(--error-color);
+			}
+
+			.message {
+				margin-bottom: 30px;
+				line-height: 1.6;
+				color: #555;
+				font-size: 16px;
+			}
+
+			.redirect-message {
+				font-size: 14px;
+				color: #777;
+				margin-top: 20px;
+			}
+
+			.countdown {
+				font-weight: 600;
+				color: var(--primary-color);
+			}
+
+			.button {
+				background-color: var(--primary-color);
+				color: white;
+				border: none;
+				padding: 12px 28px;
+				font-size: 16px;
+				border-radius: 6px;
+				cursor: pointer;
+				text-decoration: none;
+				display: inline-block;
+				transition: background-color 0.2s ease;
+				font-weight: 500;
+			}
+
+			.button:hover {
+				background-color: var(--primary-hover);
+			}
+
+			.logo {
+				margin-bottom: 24px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 12px;
+			}
+
+			.logo img {
+				height: 30px;
+			}
+
+			.progress-container {
+				width: 100%;
+				height: 4px;
+				background-color: #e0e0e0;
+				margin-top: 20px;
+				border-radius: 2px;
+				overflow: hidden;
+			}
+
+			.progress-bar {
+				height: 100%;
+				background-color: var(--primary-color);
+				width: 100%;
+				transition: width 10s linear;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container" id="container">
+			<div class="logo">
+				<svg
+					width="30"
+					height="30"
+					viewBox="0 0 24 24"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M19.5 3H4.5C3.67157 3 3 3.67157 3 4.5V19.5C3 20.3284 3.67157 21 4.5 21H19.5C20.3284 21 21 20.3284 21 19.5V4.5C21 3.67157 20.3284 3 19.5 3Z"
+						stroke="#4285f4"
+						stroke-width="2"
+					/>
+					<path d="M3 8.25H21" stroke="#4285f4" stroke-width="2" />
+					<path d="M8.25 8.25V21" stroke="#4285f4" stroke-width="2" />
+				</svg>
+				<span style="font-weight: 600; font-size: 20px; color: #4285f4"
+					>Google Sheets Authentication</span
+				>
+			</div>
+
+			<div id="successContent" style="display: none" class="success">
+				<div class="icon">✓</div>
+				<h1>Authentication Successful</h1>
+				<p class="message">
+					Your Google Sheets account has been successfully connected. You can
+					now return to Claude to continue your travel planning.
+				</p>
+				<a href="https://claude.ai" class="button" id="returnButton"
+					>Return to Claude</a
+				>
+				<div class="progress-container">
+					<div class="progress-bar" id="progressBar"></div>
+				</div>
+				<p class="redirect-message">
+					You will be automatically redirected in
+					<span id="countdown" class="countdown">10</span> seconds
+				</p>
+			</div>
+
+			<div id="errorContent" style="display: none" class="error">
+				<div class="icon">✗</div>
+				<h1>Authentication Failed</h1>
+				<p class="message" id="errorMessage">
+					There was an error during the authentication process. Please try
+					again.
+				</p>
+				<a href="https://claude.ai" class="button">Return to Claude</a>
+			</div>
+		</div>
+
+		<script>
+			// Get URL parameters
+			const urlParams = new URLSearchParams(window.location.search);
+			const code = urlParams.get("code");
+			const error = urlParams.get("error");
+			const redirectUrl = urlParams.get("state")
+				? decodeURIComponent(urlParams.get("state"))
+				: "https://claude.ai";
+
+			// Set return button URL
+			document.getElementById("returnButton").href = redirectUrl;
+
+			// Show appropriate content
+			if (error) {
+				document.getElementById("errorContent").style.display = "block";
+				document.getElementById(
+					"errorMessage"
+				).textContent = `There was an error during the authentication process: ${error}`;
+			} else {
+				document.getElementById("successContent").style.display = "block";
+
+				// Start countdown
+				let secondsLeft = 10;
+				const countdown = document.getElementById("countdown");
+				const progressBar = document.getElementById("progressBar");
+
+				// Initialize progress bar
+				progressBar.style.width = "100%";
+
+				setTimeout(() => {
+					progressBar.style.width = "0%";
+				}, 50);
+
+				const timer = setInterval(() => {
+					secondsLeft--;
+					countdown.textContent = secondsLeft;
+
+					if (secondsLeft <= 0) {
+						clearInterval(timer);
+						window.location.href = redirectUrl;
+					}
+				}, 1000);
+			}
+		</script>
+	</body>
+</html>

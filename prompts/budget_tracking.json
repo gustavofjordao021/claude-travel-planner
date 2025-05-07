@@ -1,0 +1,45 @@
+{
+	"name": "budget_tracking",
+	"description": "Guide for creating and managing a comprehensive travel budget with expense tracking and currency conversion",
+	"version": "1.0.0",
+	"text": "Follow these steps to create and manage a travel budget for your {{destination}} trip:\n\n1. **Create Budget Spreadsheet**\n   - Use `create_spreadsheet` to create a new spreadsheet titled \"{{destination}} Travel Budget\".\n   - Alternatively, add budget sheets to your existing travel spreadsheet.\n\n2. **Set Up Budget Framework**\n   Create these sheets in your spreadsheet:\n\n   a. **Budget Overview**\n      - Set up categories: Transportation, Accommodation, Food, Activities, Shopping, Miscellaneous\n      - Create columns: Category, Estimated Cost ({{base_currency}}), Notes\n      - Add a row for each expense type within categories\n      - Include total budget at the bottom\n\n   b. **Daily Expense Tracker**\n      - Create columns: Date, Category, Item, Amount (Local), Currency, Amount ({{base_currency}}), Payment Method, Notes\n      - Create a row per day of your trip as section headers\n\n   c. **Currency Reference**\n      - Create a sheet with current exchange rates\n      - Use `currency_convert` to get rates between {{base_currency}} and local currencies\n\n3. **Pre-Trip Budget Planning**\n   - Research and estimate costs for each category:\n     * **Transportation**: Flights, local transit, taxis, car rental\n     * **Accommodation**: Hotels, Airbnb, hostels\n     * **Food**: Restaurants, groceries, snacks\n     * **Activities**: Attraction tickets, tours, events\n     * **Shopping**: Souvenirs, necessities\n     * **Miscellaneous**: Insurance, visa fees, tips, emergencies\n   - Add formulas to calculate totals per category\n   - Create a summary with total estimated cost and daily average\n\n4. **During Trip: Daily Expense Tracking**\n   For each expense:\n   - Record the date, category, and item\n   - Enter the amount in local currency\n   - Use `currency_convert` to convert to {{base_currency}}\n   - Note the payment method for reconciliation\n\n5. **Budget Analysis and Visualization**\n   - Create a \"Budget Analysis\" sheet with:\n     * Planned vs. actual spending by category\n     * Daily spending trends\n     * Percentage breakdown of expenses\n   - Add visualizations (charts) for easier comprehension\n\n6. **Post-Trip Reconciliation**\n   - Update all currency conversions with final rates\n   - Compare actual vs. estimated expenses\n   - Add notes on budget variances\n   - Create a spending summary and lessons learned\n\n7. **Export and Share**\n   - Format the spreadsheet for readability\n   - Create a shareable version if traveling with others\n\nAfter completing these steps, you'll have:\n1. A complete pre-trip budget estimate\n2. A system for tracking expenses during your trip\n3. Tools for analyzing your spending patterns\n4. A reference for planning future trips to similar destinations",
+	"inputVariables": [
+		{
+			"name": "destination",
+			"description": "The destination for the trip budget",
+			"type": "string",
+			"required": true
+		},
+		{
+			"name": "base_currency",
+			"description": "Your home currency for the budget (USD, EUR, etc.)",
+			"type": "string",
+			"required": true
+		},
+		{
+			"name": "duration",
+			"description": "Length of trip in days",
+			"type": "number",
+			"required": true
+		},
+		{
+			"name": "travelers",
+			"description": "Number of travelers (for per-person calculations)",
+			"type": "number",
+			"required": false,
+			"default": 1
+		},
+		{
+			"name": "total_budget",
+			"description": "Maximum total budget (optional)",
+			"type": "number",
+			"required": false
+		},
+		{
+			"name": "spreadsheet_id",
+			"description": "Existing spreadsheet ID to add budget sheets to (optional)",
+			"type": "string",
+			"required": false
+		}
+	]
+}

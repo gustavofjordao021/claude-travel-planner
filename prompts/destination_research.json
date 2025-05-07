@@ -1,0 +1,26 @@
+{
+	"name": "destination_research",
+	"description": "Comprehensive guide for researching travel destinations",
+	"version": "1.0.0",
+	"text": "Follow these steps to research a travel destination:\n\n1. **Initial Destination Search**\n   - Use `maps_place_search` to find top attractions in {{destination}}.\n   - Note down the top 5-10 attractions along with their coordinates.\n\n2. **Create Research Spreadsheet**\n   - Use `create_spreadsheet` to create a new spreadsheet titled \"{{destination}} Travel Research\".\n   - Create sheets for: \"Attractions\", \"Accommodation\", \"Transportation\", and \"General Info\".\n   - In the Attractions sheet, set up columns for: Name, Category, Address, Rating, Price Range, Opening Hours, Visit Duration, and Notes.\n\n3. **For Each Major Attraction**\n   - Use `browserbase_create_session` to start a browsing session.\n   - Use `browserbase_navigate` to search for the attraction's official website.\n   - Extract key information using `browserbase_get_content`:\n     * Opening hours and days\n     * Admission fees\n     * Special requirements (e.g., advance booking)\n     * Suggested visit duration\n   - Take a screenshot with `browserbase_screenshot` for visual reference.\n   - Add the data to your spreadsheet using `edit_row`.\n\n4. **Research Transportation Options**\n   - Use `maps_distance` to calculate distances between key locations.\n   - Document public transportation options between attractions.\n   - Note down estimated travel times and costs.\n\n5. **Accommodation Research**\n   - Research accommodations in central areas near attractions.\n   - Document options in the Accommodation sheet with pricing and amenities.\n\n6. **Create Summary Sheet**\n   - Create a \"Summary\" sheet with the most important findings.\n   - Include a suggested order of visits based on location proximity.\n   - List any travel tips specific to {{destination}}.\n\n7. **Final Organization**\n   - Format the spreadsheet for readability.\n   - Create a table of contents in the first sheet.\n\nAfter completing these steps, provide:\n1. A link to the completed spreadsheet\n2. A brief summary of key findings\n3. Recommendations for when to visit and how many days to spend",
+	"inputVariables": [
+		{
+			"name": "destination",
+			"description": "The city, region or country to research",
+			"type": "string",
+			"required": true
+		},
+		{
+			"name": "trip_duration",
+			"description": "The planned duration of the trip in days",
+			"type": "number",
+			"required": false
+		},
+		{
+			"name": "travel_style",
+			"description": "Travel preferences (family, adventure, culture, relaxation, etc.)",
+			"type": "string",
+			"required": false
+		}
+	]
+}

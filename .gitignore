@@ -1,0 +1,15 @@
+.DS_Store
+node_modules
+
+# Credentials and secret files
+*.keys.json
+*credentials.json
+.env
+.gsheets-server-credentials.json
+gcp-oauth*.json
+dist/.gsheets-server-credentials.json
+dist/.temp-gcp-oauth-*.json
+dist/gcp-oauth*.json
+
+# Build directory (optionally add this back if needed)
+dist/
