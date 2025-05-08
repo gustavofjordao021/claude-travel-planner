@@ -1,6 +1,6 @@
 {
 	"name": "claude-travel-planner",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "MCP servers for travel planning with Google Sheets, Maps and Browserbase",
 	"license": "MIT",
 	"author": "Gustavo Jordão (https://github.com/gustavofjordao021)",
